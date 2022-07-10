@@ -48,48 +48,51 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('pagination'),
+        ),
         body: BlocConsumer<PaginationCubit, PaginationState>(
-      builder: (BuildContext context, state) {
-        var cubit = PaginationCubit.get(context);
-        cubit.total = cubit.allmodeldata?.totalPassengers ?? 1;
-        cubit.lastPage = cubit.allmodeldata?.totalPages ?? 1;
-        return state is ListLoadingStatus
-            ? const CircularProgressIndicator()
-            : Column(
-                children: [
-                  ListView.separated(
-                    itemCount: cubit.listpagination!.length,
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          title: Text(
-                        cubit.listpagination![index].name.toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ));
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: state is LoadingPaginationListState ? 70 : 0,
-                      width: double.infinity,
-                      color: Colors.black,
-                      child: Center(
-                        child: cubit.total == cubit.listpagination!.length
-                            ? const Text("No More Data")
-                            : const CircularProgressIndicator(),
+          builder: (BuildContext context, state) {
+            var cubit = PaginationCubit.get(context);
+            cubit.total = cubit.allmodeldata?.totalPassengers ?? 1;
+            cubit.lastPage = cubit.allmodeldata?.totalPages ?? 1;
+            return state is ListLoadingStatus
+                ? const CircularProgressIndicator()
+                : Column(
+                    children: [
+                      ListView.separated(
+                        itemCount: cubit.listpagination!.length,
+                        controller: scrollController,
+                        shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                              title: Text(
+                            cubit.listpagination![index].name.toString(),
+                            style: const TextStyle(fontSize: 20),
+                          ));
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
                       ),
-                    ),
-                  )
-                ],
-              );
-      },
-      listener: (BuildContext context, Object? state) {},
-    ));
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: state is LoadingPaginationListState ? 70 : 0,
+                          width: double.infinity,
+                          color: Colors.black,
+                          child: Center(
+                            child: cubit.total == cubit.listpagination!.length
+                                ? const Text("No More Data")
+                                : const CircularProgressIndicator(),
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+          },
+          listener: (BuildContext context, Object? state) {},
+        ));
   }
 }
