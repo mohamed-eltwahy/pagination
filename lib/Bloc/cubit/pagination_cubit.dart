@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -27,7 +29,10 @@ class PaginationCubit extends Cubit<PaginationState> {
     }
     dynamic res = await PaginateRepo.getAllData(
         query: {"page": page.toString(), "size": size.toString()});
+        log(res.toString());
     allmodeldata = PaginationModel.fromJson(res);
+
+    log("alll ${allmodeldata!.data.toString()}");
 
     emit(ListLoadedSuccessfllyStatus());
   }

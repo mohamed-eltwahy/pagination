@@ -13,8 +13,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
+        var cubit = PaginationCubit.get(context);
+
+          cubit.getAllData(page: 0, size: 10);
+
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -23,7 +28,16 @@ class _HomePageState extends State<HomePage> {
     });
     super.initState();
   }
+   fetchData() async {
+        var cubit = PaginationCubit.get(context);
 
+    log('gggggggggggggggg ${cubit.listpagination}');
+    if (cubit.page != cubit.lastPage) {
+      cubit.page++;
+      log(cubit.page.toString());
+      cubit.getAllData(page: cubit.page, size: 10);
+    }
+  }
   @override
   void dispose() {
     scrollController.dispose();
@@ -31,14 +45,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  fetchData() async {
-    var cubit = PaginationCubit.get(context);
-    if (cubit.page != cubit.lastPage) {
-      cubit.page++;
-      log(cubit.page.toString());
-      cubit.getAllData(page: cubit.page, size: 10);
-    }
-  }
+ 
 
   // @override
   // void initState() {
@@ -56,9 +63,11 @@ class _HomePageState extends State<HomePage> {
             var cubit = PaginationCubit.get(context);
             cubit.total = cubit.allmodeldata?.totalPassengers ?? 1;
             cubit.lastPage = cubit.allmodeldata?.totalPages ?? 1;
-            return state is ListLoadingStatus
-                ? const CircularProgressIndicator()
-                : Column(
+            return
+             state is ListLoadingStatus
+                ? const Center(child: CircularProgressIndicator())
+                :
+                 Column(
                     children: [
                       ListView.separated(
                         itemCount: cubit.listpagination!.length,
@@ -69,26 +78,28 @@ class _HomePageState extends State<HomePage> {
                           return ListTile(
                               title: Text(
                             cubit.listpagination![index].name.toString(),
-                            style: const TextStyle(fontSize: 20),
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.black),
                           ));
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
                         },
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: state is LoadingPaginationListState ? 70 : 0,
-                          width: double.infinity,
-                          color: Colors.black,
-                          child: Center(
-                            child: cubit.total == cubit.listpagination!.length
-                                ? const Text("No More Data")
-                                : const CircularProgressIndicator(),
-                          ),
-                        ),
-                      )
+                      // Align(
+                      //   alignment: Alignment.bottomCenter,
+                      //   child: Container(
+                      //     height: state is LoadingPaginationListState ? 70 : 0,
+                      //     width: double.infinity,
+                      //     color: Colors.black,
+                      //     child: Center(
+                      //       child: cubit.total == cubit.listpagination!.length
+                      //           ? const Text("No More Data")
+                      //           : const Center(
+                      //               child: CircularProgressIndicator()),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   );
           },

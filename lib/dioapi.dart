@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -47,6 +49,7 @@ class DioApi {
             isSocketException = true;
             Print.red(onError.toString());
           });
+          log(int.parse(url));
         } else if (methodType == 'POST' || methodType == 'post') {
           response = await Dio()
               .post(url!,
