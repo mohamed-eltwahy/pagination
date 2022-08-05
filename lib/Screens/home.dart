@@ -16,10 +16,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-        var cubit = PaginationCubit.get(context);
-
-          cubit.getAllData(page: 0, size: 10);
-
+    PaginationCubit.get(context).page = 1;
+    PaginationCubit.get(context)
+        .getAllData(page:  PaginationCubit.get(context).page, size: 6);
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -28,20 +27,19 @@ class _HomePageState extends State<HomePage> {
     });
     super.initState();
   }
-   fetchData() async {
-        var cubit = PaginationCubit.get(context);
 
-    log('gggggggggggggggg ${cubit.listpagination}');
+  fetchData({name}) async {
+    var cubit = PaginationCubit.get(context);
     if (cubit.page != cubit.lastPage) {
       cubit.page++;
-      log(cubit.page.toString());
-      cubit.getAllData(page: cubit.page, size: 10);
+        cubit.getAllData(page: cubit.page, size: 6);
+        
     }
   }
+
   @override
   void dispose() {
     scrollController.dispose();
-
     super.dispose();
   }
 

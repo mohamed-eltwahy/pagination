@@ -12,14 +12,14 @@ part 'pagination_state.dart';
 class PaginationCubit extends Cubit<PaginationState> {
   PaginationCubit() : super(PaginationInitial());
   static PaginationCubit get(context) => BlocProvider.of(context);
-  int page = 0;
+  int page = 1;
   int lastPage = 1;
   int total = 1;
   List<Data>? listpagination = [];
 
   PaginationModel? allmodeldata;
 
-  dynamic getAllData({int? page, int? size}) async {
+  dynamic getAllData({int page=0, int size=6}) async {
     if (page == 0) {
       listpagination = [];
 
@@ -31,6 +31,7 @@ class PaginationCubit extends Cubit<PaginationState> {
         query: {"page": page.toString(), "size": size.toString()});
         log(res.toString());
     allmodeldata = PaginationModel.fromJson(res);
+    listpagination!.addAll(allmodeldata!.data!);
 
     log("alll ${allmodeldata!.data.toString()}");
 

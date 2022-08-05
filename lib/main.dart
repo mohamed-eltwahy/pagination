@@ -7,8 +7,8 @@ import 'package:pagination_flutter/Screens/home.dart';
 import 'package:pagination_flutter/app_bloc_observer.dart';
 
 Future<void> main() async {
+  // HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  HttpOverrides.global = MyHttpOverrides();
 
   BlocOverrides.runZoned(() {
     runApp(
@@ -18,12 +18,12 @@ Future<void> main() async {
 }
 
 class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
+  // @override
+  // HttpClient createHttpClient(SecurityContext? context) {
+  //   return super.createHttpClient(context)
+  //     ..badCertificateCallback =
+  //         (X509Certificate cert, String host, int port) => true;
+  // }
 }
 
 class MyApp extends StatelessWidget {
