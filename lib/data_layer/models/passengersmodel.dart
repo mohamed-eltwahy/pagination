@@ -1,11 +1,11 @@
-class PaginationModel {
+class PassengersModel {
   int? totalPassengers;
   int? totalPages;
   List<Data>? data;
 
-  PaginationModel({this.totalPassengers, this.totalPages, this.data});
+  PassengersModel({this.totalPassengers, this.totalPages, this.data});
 
-  PaginationModel.fromJson(Map<String, dynamic> json) {
+  PassengersModel.fromJson(Map<String, dynamic> json) {
     totalPassengers = json['totalPassengers'];
     totalPages = json['totalPages'];
     if (json['data'] != null) {
